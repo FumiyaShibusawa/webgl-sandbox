@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: ./.docker/app/Dockerfile
+    ports:
+      - '4000:4000'
+    environment:
+      - LANG=C.UTF-8
+    volumes:
+      - .:/webgl-sandbox:cached
+    tty: true
+    
