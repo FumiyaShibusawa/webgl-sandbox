@@ -17,5 +17,10 @@ export default {
     ]
   },
   plugins: ["~/plugins/webgl_initializer.ts"],
-  buildModules: ["@nuxt/typescript-build"]
+  buildModules: ["@nuxt/typescript-build"],
+  build: {
+    extend(config) {
+      config.module.rules.push({ test: /\.glsl$/, use: ["raw-loader"] });
+    }
+  }
 };
