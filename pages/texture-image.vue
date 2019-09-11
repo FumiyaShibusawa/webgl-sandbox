@@ -1,23 +1,6 @@
 <template>
   <div>
     <canvas id="glCanvas" width="500" height="500"></canvas>
-    <script id="vsSource" type="vs">
-  attribute vec4 a_Position;
-  attribute vec2 a_texCoord;
-  varying vec2 v_TexCoord;
-  void main() {
-    gl_Position = a_Position;
-    v_TexCoord = a_texCoord;
-  }
-    </script>
-    <script id="fsSource" type="fs">
-  precision mediump float;
-  uniform sampler2D u_Image;
-  varying vec2 v_TexCoord;
-  void main() {
-    gl_FragColor = texture2D(u_Image, v_TexCoord);
-  }
-    </script>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -44,7 +27,11 @@ export default Vue.extend({
         {
           src: require("@/assets/images/sample-1024-1024.png")
         }
-      ]
+      ],
+      shaders: {
+        vertex: require("@/assets/shaders/texture-image/vertex.glsl"),
+        fragment: require("@/assets/shaders/texture-image/fragment.glsl")
+      }
     };
   },
   mounted() {
@@ -52,15 +39,15 @@ export default Vue.extend({
     const gl = (<HTMLCanvasElement>canvas).getContext(
       "webgl"
     ) as WebGLRenderingContext;
-    const vsSource = document.getElementById("vsSource") as HTMLScriptElement;
-    const fsSource = document.getElementById("fsSource") as HTMLScriptElement;
+    const vsSource = this.$data.shaders.vertex.default;
+    const fsSource = this.$data.shaders.fragment.default;
     if (!vsSource && !fsSource) {
       alert(`Error occurred during fetching shader sources`);
     }
     const glProgram = this.$initWebGLProgram(
       gl,
-      vsSource.innerText,
-      fsSource.innerText
+      vsSource,
+      fsSource
     ) as WebGLProgram;
 
     gl.clearColor(0, 0, 0, 1);
