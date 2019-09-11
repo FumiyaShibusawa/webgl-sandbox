@@ -7,6 +7,9 @@
           <li>
             <nuxt-link to="/">My first WebGL</nuxt-link>
           </li>
+          <li>
+            <nuxt-link to="/texture-image">My first Texture Image</nuxt-link>
+          </li>
         </ul>
       </nav>
     </header>
@@ -31,6 +34,7 @@
       margin-top: 20px;
       ul li {
         font-size: 1.6rem;
+        margin-bottom: 10px;
         a {
           position: relative;
           padding-bottom: 5px;
