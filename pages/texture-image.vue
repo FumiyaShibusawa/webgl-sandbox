@@ -49,9 +49,7 @@ export default Vue.extend({
       vsSource,
       fsSource
     ) as WebGLProgram;
-
-    gl.clearColor(0, 0, 0, 1);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.useProgram(glProgram);
 
     const verticesTexCoords = new Float32Array([
       -1.0,
@@ -115,7 +113,9 @@ export default Vue.extend({
       );
       const u_Image = gl.getUniformLocation(glProgram, "u_Image");
       gl.uniform1i(u_Image, 0);
-      gl.useProgram(glProgram);
+
+      gl.clearColor(0, 0, 0, 1);
+      gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     };
   }
