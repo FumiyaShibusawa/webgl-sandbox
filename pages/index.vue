@@ -1,7 +1,7 @@
 <template>
   <div>
     <canvas id="glCanvas" width="500" height="500"></canvas>
-    <button type="button" @click="drawCanvas">click</button>
+    <button type="button" @click="drawCanvas(generateVertex(4))">click</button>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -18,58 +18,54 @@ button {
   transform: translate(-50%, -50%);
 }
 </style>
-<script scoped>
-import * as WebGLUtils from "@/assets/js/webgl_utils";
-export default {
+<script lang="ts" scoped>
+import Vue from "vue";
+import { Context } from "@nuxt/types";
+export default Vue.extend({
+  asyncData(context: Context) {
+    return {
+      shaders: {
+        vertex: require("@/assets/shaders/index/vertex.glsl"),
+        fragment: require("@/assets/shaders/index/fragment.glsl")
+      }
+    };
+  },
   methods: {
-    generateVertex(vertexNumber) {
-      return Array.from(
+    generateVertex(vertexNumber: number): Float32Array {
+      return Float32Array.from(
         { length: vertexNumber * 2 },
         () => Math.random() * 2 - 1
       );
     },
-    drawCanvas() {
-      const canvas = document.getElementById("glCanvas");
-      const gl = canvas.getContext("webgl");
-      gl.clearColor(0, 0, 0, 1);
-      gl.clear(gl.COLOR_BUFFER_BIT);
+    drawCanvas(vertices: Float32Array) {
+      const canvas = document.getElementById("glCanvas") as HTMLCanvasElement;
+      const gl = canvas.getContext("webgl") as WebGLRenderingContext;
+      const vsSource = this.$data.shaders.vertex.default;
+      const fsSource = this.$data.shaders.fragment.default;
 
-      const vsSource = `
-        attribute vec4 aVertexPosition;
-        void main() {
-          gl_Position = aVertexPosition;
-        }
-      `;
-      const fsSource = `
-        void main() {
-          gl_FragColor = vec4(1, 0, 0.5, 1);
-        }
-      `;
-
-      const shaderProgram = WebGLUtils.initShaderProgram(
+      const glProgram = this.$initWebGLProgram(
         gl,
         vsSource,
         fsSource
-      );
-      const vertexPosition = gl.getAttribLocation(
-        shaderProgram,
-        "aVertexPosition"
-      );
-      const positions = this.generateVertex(4);
-      const buffers = WebGLUtils.initBuffers(gl, positions);
+      ) as WebGLProgram;
+      gl.useProgram(glProgram);
 
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
-      gl.vertexAttribPointer(vertexPosition, 2, gl.FLOAT, false, 0, 0);
-      gl.enableVertexAttribArray(vertexPosition);
+      const aPositionBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, aPositionBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
-      gl.useProgram(shaderProgram);
+      // passing data to attribute buffer: vec4 a_Position
+      const a_Position = gl.getAttribLocation(glProgram, "a_Position");
+      gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
+      gl.enableVertexAttribArray(a_Position);
 
+      gl.clearColor(0, 0, 0, 1);
+      gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
   },
-
   mounted() {
-    this.drawCanvas();
+    this.drawCanvas(this.generateVertex(4));
   }
-};
+});
 </script>
