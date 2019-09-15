@@ -10,6 +10,9 @@
           <li>
             <nuxt-link to="/texture-image">My first Texture Image</nuxt-link>
           </li>
+          <li>
+            <nuxt-link to="/multi-texture-image">Multi Texture Image</nuxt-link>
+          </li>
         </ul>
       </nav>
     </header>
