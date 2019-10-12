@@ -5,13 +5,13 @@
       <nav>
         <ul>
           <li>
-            <nuxt-link to="/">My first WebGL</nuxt-link>
+            <nuxt-link to>My first WebGL</nuxt-link>
           </li>
           <li>
-            <nuxt-link to="/texture-image">My first Texture Image</nuxt-link>
+            <nuxt-link to="texture-image">My first Texture Image</nuxt-link>
           </li>
           <li>
-            <nuxt-link to="/multi-texture-image">Multi Texture Image</nuxt-link>
+            <nuxt-link to="multi-texture-image">Multi Texture Image</nuxt-link>
           </li>
         </ul>
       </nav>
