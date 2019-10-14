@@ -8,10 +8,13 @@
             <nuxt-link to>My first WebGL</nuxt-link>
           </li>
           <li>
-            <nuxt-link to="texture-image">My first Texture Image</nuxt-link>
+            <nuxt-link to="/works/webgl-sandbox/texture-image">My first Texture Image</nuxt-link>
           </li>
           <li>
-            <nuxt-link to="multi-texture-image">Multi Texture Image</nuxt-link>
+            <nuxt-link to="/works/webgl-sandbox/multi-texture-image">Multi Texture Image</nuxt-link>
+          </li>
+          <li>
+            <nuxt-link to="/works/webgl-sandbox/points-on-click">Points On Click</nuxt-link>
           </li>
         </ul>
       </nav>
