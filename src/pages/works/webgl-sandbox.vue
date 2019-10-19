@@ -1,5 +1,5 @@
 <template>
-  <nuxt-child></nuxt-child>
+  <nuxt />
 </template>
 <script lang="ts" scoped>
 import Vue from "vue";
