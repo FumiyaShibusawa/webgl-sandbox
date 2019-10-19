@@ -22,6 +22,10 @@ export default {
           {
             path: "/works/webgl-sandbox/multi-texture-image",
             title: "Multi Texture Image"
+          },
+          {
+            path: "/works/webgl-sandbox/points-on-click",
+            title: "Points on click"
           }
         ]
       };
