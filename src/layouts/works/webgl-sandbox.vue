@@ -26,6 +26,10 @@ export default {
           {
             path: "/works/webgl-sandbox/points-on-click",
             title: "Points on click"
+          },
+          {
+            path: "/works/webgl-sandbox/points-on-click-by-buffer",
+            title: "Points on click by buffer"
           }
         ]
       };
