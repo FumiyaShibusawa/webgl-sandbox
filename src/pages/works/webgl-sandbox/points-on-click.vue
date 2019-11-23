@@ -44,18 +44,30 @@ export default Vue.extend({
       gl.clear(gl.COLOR_BUFFER_BIT);
       const points = [] as number[][];
       const colors = [] as number[][];
-      canvas.addEventListener("mousedown", (el: MouseEvent) => {
+      canvas.addEventListener("mousedown", (event: MouseEvent) => {
         gl.clear(gl.COLOR_BUFFER_BIT);
-        const rect = el.target.getBoundingClientRect();
-        const x = ((el.clientX - rect.left - rect.width / 2) /
+        const target = event.target as HTMLCanvasElement;
+        const rect = target.getBoundingClientRect();
+        const x = ((event.clientX - rect.left - rect.width / 2) /
           (rect.width / 2)) as number;
-        const y = ((rect.height / 2 - (el.clientY - rect.top)) /
+        const y = ((rect.height / 2 - (event.clientY - rect.top)) /
           (rect.height / 2)) as number;
         points.push([x, y, 0.0]);
         colors.push([Math.abs(x), Math.abs(y), 1.0, 1.0]);
         for (let i = 0; i < points.length; i++) {
-          gl.vertexAttrib3f(a_Position, ...points[i]);
-          gl.uniform4f(u_FragColor, ...colors[i]);
+          gl.vertexAttrib3f(
+            a_Position,
+            points[i][0],
+            points[i][1],
+            points[i][2]
+          );
+          gl.uniform4f(
+            u_FragColor,
+            colors[i][0],
+            colors[i][1],
+            colors[i][2],
+            colors[i][3]
+          );
           gl.drawArrays(gl.POINTS, 0, 1);
         }
       });
