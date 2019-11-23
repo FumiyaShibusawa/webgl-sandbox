@@ -45,7 +45,8 @@ export default Vue.extend({
       const points = [] as number[];
       canvas.addEventListener("mousedown", (event: MouseEvent) => {
         gl.clear(gl.COLOR_BUFFER_BIT);
-        const rect = event.target.getBoundingClientRect();
+        const target = event.target as HTMLCanvasElement;
+        const rect = target.getBoundingClientRect();
         const x = ((event.clientX - rect.left - rect.width / 2) /
           (rect.width / 2)) as number;
         const y = ((rect.height / 2 - (event.clientY - rect.top)) /
